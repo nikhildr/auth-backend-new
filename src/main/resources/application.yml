@@ -1,0 +1,80 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:postgresql://5.189.146.42:5432/backofficedb
+    username: postgres
+    password: Digivast@2025
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+    properties:
+      hibernate:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: digivastllp@gmail.com
+    password: Digivastllp2023
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+
+jwt:
+  secret: myVeryLongSecretKeyThatIsAtLeast512BitsLongForHS512AlgorithmToWorkProperlyAndSecurely123456789
+  expiration: 86400000
+
+# Swagger/OpenAPI Configuration
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+    enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    operationsSorter: method
+    tagsSorter: alpha
+    tryItOutEnabled: true
+    filter: true
+    configUrl: /v3/api-docs/swagger-config
+    url: /v3/api-docs
+    show-actuator: false
+    default-consumes-media-type: application/json
+    default-produces-media-type: application/json
+    writer-with-default-pretty-printer: true
+  servers:
+    - url: http://localhost:8081
+      description: Direct Auth Service
+    - url: http://localhost:8080/auth-service
+      description: Via API Gateway
+  default-server-url: http://localhost:8080/auth-service
+
+logging:
+  level:
+    com.microservices.auth: DEBUG
+    org.springframework.security: DEBUG
+
+encryption:
+  key: abcdef1234567890abcdef1234567890
